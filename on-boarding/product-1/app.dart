@@ -2,25 +2,30 @@ import 'dart:io';
 
 void main() {
   Product_Manager mn = Product_Manager();
-  while (1 > 0) {
+  while (true) {
+    print("");
     print("1.add product");
     print("2.edit product");
     print("3.remove product");
     print("4.view a product");
     print("5.view all product");
     var input = stdin.readLineSync()?.trim();
-    if (input == null || input.isEmpty) {
-      print("Invalid input. Please enter a number.");
-      continue;
+    var choice;
+    if (input != null && input.isNotEmpty) {
+      try {
+        choice = int.parse(input);
+      } catch (e) {
+        print("Invalid input , Please enter a number.");
+        continue;
+      }
     }
-    var choice = int.parse(input);
     if (choice == 1) mn.addProduct();
     if (choice == 2) mn.edit_product();
     if (choice == 3) mn.delete_product();
     if (choice == 4) mn.show_one_product();
     if (choice == 5) mn.show_all_products();
+    print("");
   }
-  print("");
 }
 
 class Product {
@@ -30,7 +35,7 @@ class Product {
   void show_product() {
     print(Name);
     print(Description);
-    print("The Price is $Price");
+    print("The Price is $Price \$");
     print("--------------------");
   }
 
@@ -60,15 +65,24 @@ class Product {
 
 class Product_Manager {
   var Products = {};
+  bool check_if_product_exist(name) {
+    if (Products.containsKey(name)) {
+      return true;
+    } else {
+      print("Product not listed");
+      return false;
+    }
+  }
+
   void addProduct() {
     String? name, description;
     int? price;
 
-    print("New Name");
+    print("Name");
     name = stdin.readLineSync();
-    print("New Description");
+    print("Description");
     description = stdin.readLineSync();
-    print("New Price");
+    print("Price");
     var priceInput = stdin.readLineSync();
     if (priceInput != null && priceInput.isNotEmpty) {
       try {
@@ -90,18 +104,25 @@ class Product_Manager {
 
   void show_all_products() {
     for (var product in Products.entries) {
+      print("---------------");
       product.value.show_product();
     }
   }
 
   void show_one_product() {
     var name = stdin.readLineSync();
+    if (!check_if_product_exist(name)) {
+      return;
+    }
     Product product = Products[name];
     product.show_product();
   }
 
   void edit_product() {
     var name = stdin.readLineSync();
+    if (!check_if_product_exist(name)) {
+      return;
+    }
     Product product = Products[name];
     var new_name = product.edit_one_product();
     Products[new_name] = product;
@@ -110,6 +131,9 @@ class Product_Manager {
 
   void delete_product() {
     var name = stdin.readLineSync();
+    if (!check_if_product_exist(name)) {
+      return;
+    }
     Products.remove(name);
   }
 }
