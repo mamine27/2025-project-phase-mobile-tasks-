@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -13,22 +14,88 @@ class MyApp extends StatelessWidget {
         borderRadius: BorderRadius.circular(15), // rounded corners
       ),
       child: Padding(
-        padding: EdgeInsets.all(16), // inner spacing
-        child: Stack(
-          children: [
-            SizedBox(height: 200, width: 100),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Product Name",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        padding: EdgeInsets.symmetric(
+          horizontal: 0,
+          vertical: 0,
+        ), // inner spacing
+        child: SizedBox(
+          height: 240,
+          width: 366,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 200,
+                width: double.infinity,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  ),
+                  child: Image.asset(
+                    'assets/images/sample.jpeg',
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                SizedBox(height: 100),
-                Text("Description of the product goes here."),
-              ],
-            ),
-          ],
+              ),
+
+              SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsGeometry.symmetric(horizontal: 8),
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Nike",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text("120\$"),
+                      ],
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsetsGeometry.symmetric(
+                      horizontal: 8,
+                      vertical: 0,
+                    ),
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Men's Shoe",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w200,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star_rate,
+                              color: const Color.fromARGB(
+                                255,
+                                222,
+                                208,
+                                83,
+                              ), // Set the icon color to yellow
+                            ),
+                            Text("(4.0)"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -39,6 +106,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
+      theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
+      ),
       home: Scaffold(
         body: SafeArea(
           child: Padding(
@@ -55,8 +125,22 @@ class MyApp extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("July 14 ,2023"),
-                            Text("Hello , Yohannes"),
+                            Text(
+                              "July 14 ,2023",
+                              style: GoogleFonts.poppins(
+                                fontSize: 10,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+
+                            Text(
+                              "Hello , Yohannes",
+                              style: GoogleFonts.poppins(
+                                fontSize: 10,
+
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ],
                         ),
                       ],
@@ -85,8 +169,19 @@ class MyApp extends StatelessWidget {
                         Icon(Icons.search),
                       ],
                     ),
-                    singlecard(),
                   ],
+                ),
+                Expanded(
+                  child: GridView.count(
+                    crossAxisCount: 1, // Number of columns
+                    crossAxisSpacing: 10, // Spacing between columns
+                    mainAxisSpacing: 10, // Spacing between rows
+                    childAspectRatio: 1.5, // Aspect ratio of each item
+                    children: List.generate(
+                      10, // Number of items
+                      (index) => singlecard(),
+                    ),
+                  ),
                 ),
               ],
             ),
