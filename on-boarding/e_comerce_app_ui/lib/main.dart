@@ -118,7 +118,7 @@ class MyApp extends StatelessWidget {
               ).push(MaterialPageRoute(builder: (_) => const AddPage()));
             },
             shape: CircleBorder(),
-            backgroundColor: const Color.fromARGB(255, 101, 170, 227),
+            backgroundColor: const Color(0xFF3F51F3),
             child: Text(
               "+",
               style: GoogleFonts.poppins(fontSize: 35, color: Colors.white),
@@ -339,7 +339,7 @@ class _AddPageState extends State<AddPage> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 24),
+                        padding: EdgeInsets.symmetric(vertical: 8),
                         child: SizedBox(
                           width: double.infinity,
                           height: 56,
@@ -367,7 +367,7 @@ class _AddPageState extends State<AddPage> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 24),
+                        padding: EdgeInsets.symmetric(vertical: 8),
                         child: SizedBox(
                           width: double.infinity,
                           height: 56,
