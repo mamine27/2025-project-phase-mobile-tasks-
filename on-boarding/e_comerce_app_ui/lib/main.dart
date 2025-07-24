@@ -110,6 +110,15 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
       ),
       home: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          shape: CircleBorder(),
+          backgroundColor: const Color.fromARGB(255, 101, 170, 227),
+          child: Text(
+            "+",
+            style: GoogleFonts.poppins(fontSize: 35, color: Colors.white),
+          ),
+        ),
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(30),
