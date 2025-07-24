@@ -4,14 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    MaterialApp(
-      home: const SearchPage(),
-      theme: ThemeData(
-        textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme),
-      ),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 Widget singlecard() {
@@ -27,13 +20,13 @@ Widget singlecard() {
         vertical: 0,
       ), // inner spacing
       child: SizedBox(
-        height: 100,
+        height: 240,
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(
-              height: 240,
+              height: 200,
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: const BorderRadius.only(
@@ -65,11 +58,12 @@ Widget singlecard() {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+
                       Text("120\$"),
                     ],
                   ),
                 ),
-
+                SizedBox(height: 10),
                 Padding(
                   padding: EdgeInsetsGeometry.symmetric(
                     horizontal: 8,
@@ -113,7 +107,6 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
@@ -189,7 +182,17 @@ class MyApp extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Icon(Icons.search, size: 24), // Control icon size
+                          GestureDetector(
+                            child: Icon(Icons.search, size: 24),
+                            onTap: () {
+                              Navigator.of(innerContext).push(
+                                MaterialPageRoute(
+                                  builder: (_) => const SearchPage(),
+                                ),
+                              );
+                            },
+                          ),
+                          // Control icon size
                         ],
                       ),
                     ],
@@ -198,13 +201,15 @@ class MyApp extends StatelessWidget {
                     child: GridView.count(
                       crossAxisCount: 1, // Number of columns
                       crossAxisSpacing: 10, // Spacing between columns
-                      mainAxisSpacing: 10, // Spacing between rows
+                      mainAxisSpacing: 20, // Spacing between rows
                       childAspectRatio: 1.5, // Aspect ratio of each item
                       children: List.generate(
                         10, // Number of items
-                        (index) => SizedBox(
-                          height: 240, // Control card height
-                          width: 366, // Control card width
+                        (index) => Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 8,
+                          ),
                           child: singlecard(),
                         ),
                       ),
