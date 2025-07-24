@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
       home: const SearchPage(),
@@ -17,6 +18,7 @@ Widget singlecard() {
   return Card(
     elevation: 4, // shadow depth
     shape: RoundedRectangleBorder(
+      side: BorderSide(color: Colors.grey), // Set border size and color
       borderRadius: BorderRadius.circular(15), // rounded corners:w
     ),
     child: Padding(
@@ -25,12 +27,13 @@ Widget singlecard() {
         vertical: 0,
       ), // inner spacing
       child: SizedBox(
-        height: 240,
-        width: 366,
+        height: 100,
+        width: double.infinity,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(
-              height: 200,
+              height: 240,
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: const BorderRadius.only(
@@ -40,13 +43,14 @@ Widget singlecard() {
                 child: Image.asset(
                   'assets/images/sample.jpeg',
                   fit: BoxFit.cover,
+                  width: double.infinity,
                 ),
               ),
             ),
 
             SizedBox(height: 20),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: EdgeInsetsGeometry.symmetric(horizontal: 8),
@@ -139,7 +143,9 @@ class MyApp extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          CircleAvatar(),
+                          CircleAvatar(
+                            radius: 20, // Control the size of the avatar
+                          ),
                           SizedBox(width: 10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,12 +157,10 @@ class MyApp extends StatelessWidget {
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
-
                               Text(
                                 "Hello , Yohannes",
                                 style: GoogleFonts.poppins(
                                   fontSize: 10,
-
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -164,7 +168,7 @@ class MyApp extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Icon(Icons.notifications),
+                      Icon(Icons.notifications, size: 24), // Control icon size
                     ],
                   ),
                   Column(
@@ -180,12 +184,12 @@ class MyApp extends StatelessWidget {
                             child: Text(
                               "Available Products",
                               style: GoogleFonts.poppins(
-                                fontSize: 24,
+                                fontSize: 24, // Control text size
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
-                          Icon(Icons.search),
+                          Icon(Icons.search, size: 24), // Control icon size
                         ],
                       ),
                     ],
@@ -198,7 +202,11 @@ class MyApp extends StatelessWidget {
                       childAspectRatio: 1.5, // Aspect ratio of each item
                       children: List.generate(
                         10, // Number of items
-                        (index) => singlecard(),
+                        (index) => SizedBox(
+                          height: 240, // Control card height
+                          width: 366, // Control card width
+                          child: singlecard(),
+                        ),
                       ),
                     ),
                   ),
@@ -421,6 +429,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final _formKey = GlobalKey<FormState>();
   String _name = '', _price = '', _description = '';
+  RangeValues _priceRange = RangeValues(0, 1000);
 
   @override
   Widget build(BuildContext context) {
@@ -436,15 +445,40 @@ class _SearchPageState extends State<SearchPage> {
 
       body: Column(
         children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+            child: SizedBox(
+              height: 48,
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(border: OutlineInputBorder()),
+                      onSaved: (v) => _name = v ?? '',
+                      validator: (v) =>
+                          (v == null || v.isEmpty) ? 'Required' : null,
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Icon(Icons.search, color: Colors.grey),
+                ],
+              ),
+            ),
+          ),
           Expanded(
             child: GridView.count(
               crossAxisCount: 1, // Number of columns
-              crossAxisSpacing: 10, // Spacing between columns
-              mainAxisSpacing: 10, // Spacing between rows
+              crossAxisSpacing: 50, // Spacing between columns
+              mainAxisSpacing: 30, // Spacing between rows
               childAspectRatio: 1.5, // Aspect ratio of each item
               children: List.generate(
                 10, // Number of items
-                (index) => singlecard(),
+                (index) => Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child: singlecard(),
+                ),
               ),
             ),
           ),
@@ -453,6 +487,53 @@ class _SearchPageState extends State<SearchPage> {
             padding: EdgeInsets.all(19),
             child: Column(
               children: [
+                SizedBox(height: 0),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Category", textAlign: TextAlign.left),
+                ),
+                SizedBox(height: 5),
+                SizedBox(
+                  height: 56,
+                  width: double.infinity,
+                  child: TextFormField(
+                    decoration: InputDecoration(border: OutlineInputBorder()),
+                    onSaved: (v) => _name = v ?? '',
+                    validator: (v) =>
+                        (v == null || v.isEmpty) ? 'Required' : null,
+                  ),
+                ),
+                SizedBox(height: 25),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Price", textAlign: TextAlign.left),
+                ),
+                SizedBox(height: 5),
+
+                RangeSlider(
+                  activeColor: const Color(0xFF3F51F3),
+
+                  values: _priceRange,
+                  min: 0,
+                  max: 1000,
+                  divisions: 100,
+                  onChanged: (values) {
+                    setState(() {
+                      _priceRange = values;
+                    });
+                  },
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('\$${_priceRange.start.round()}'),
+                      Text('\$${_priceRange.end.round()}'),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
                   child: SizedBox(
