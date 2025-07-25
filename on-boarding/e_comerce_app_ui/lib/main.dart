@@ -4,15 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(HomePage());
 }
 
 Widget singlecard(innerContext) {
   return GestureDetector(
     onTap: () {
-      Navigator.of(
-        innerContext,
-      ).push(MaterialPageRoute(builder: (_) => const DetailPage()));
+      Navigator.of(innerContext).pushNamed(DetailPage.routeName);
     },
     child: Card(
       elevation: 4, // shadow depth
@@ -52,7 +50,7 @@ Widget singlecard(innerContext) {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsetsGeometry.symmetric(horizontal: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 8),
 
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,10 +69,7 @@ Widget singlecard(innerContext) {
                   ),
                   SizedBox(height: 10),
                   Padding(
-                    padding: EdgeInsetsGeometry.symmetric(
-                      horizontal: 8,
-                      vertical: 0,
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
 
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,12 +84,7 @@ Widget singlecard(innerContext) {
                           children: [
                             Icon(
                               Icons.star_rate,
-                              color: const Color.fromARGB(
-                                255,
-                                222,
-                                208,
-                                83,
-                              ), // Set the icon color to yellow
+                              color: const Color.fromARGB(255, 222, 208, 83),
                             ),
                             Text("(4.0)"),
                           ],
@@ -132,7 +122,7 @@ List<Widget> generate(int start, int end) {
   return boxes;
 }
 
-Widget showlecard() {
+Widget showcard() {
   return Column(
     // elevation: 4, // shadow depth
     // shape: RoundedRectangleBorder(
@@ -255,11 +245,18 @@ Widget box(int cnt) {
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class HomePage extends StatelessWidget {
+  static const routeName = '/';
+  const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: HomePage.routeName,
+      routes: {
+        AddPage.routeName: (_) => const AddPage(),
+        SearchPage.routeName: (_) => const SearchPage(),
+        DetailPage.routeName: (_) => const DetailPage(),
+      },
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
       ),
@@ -267,9 +264,7 @@ class MyApp extends StatelessWidget {
         builder: (innerContext) => Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              Navigator.of(
-                innerContext,
-              ).push(MaterialPageRoute(builder: (_) => const AddPage()));
+              Navigator.of(innerContext).pushNamed(AddPage.routeName);
             },
             shape: CircleBorder(),
             backgroundColor: const Color(0xFF3F51F3),
@@ -337,11 +332,9 @@ class MyApp extends StatelessWidget {
                           GestureDetector(
                             child: Icon(Icons.search, size: 24),
                             onTap: () {
-                              Navigator.of(innerContext).push(
-                                MaterialPageRoute(
-                                  builder: (_) => const SearchPage(),
-                                ),
-                              );
+                              Navigator.of(
+                                innerContext,
+                              ).pushNamed(SearchPage.routeName);
                             },
                           ),
                           // Control icon size
@@ -378,6 +371,7 @@ class MyApp extends StatelessWidget {
 }
 
 class AddPage extends StatefulWidget {
+  static const routeName = '/add';
   const AddPage({super.key});
   @override
   _AddPageState createState() => _AddPageState();
@@ -578,6 +572,7 @@ class _AddPageState extends State<AddPage> {
 }
 
 class SearchPage extends StatefulWidget {
+  static const routeName = '/search';
   const SearchPage({super.key});
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -729,6 +724,7 @@ class _SearchPageState extends State<SearchPage> {
 }
 
 class DetailPage extends StatefulWidget {
+  static const routeName = '/detail';
   const DetailPage({super.key});
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -753,7 +749,7 @@ class _DetailPageState extends State<DetailPage> {
                   width: double.infinity,
                   height: 286,
 
-                  child: showlecard(),
+                  child: showcard(),
                 ),
               ),
               Padding(
