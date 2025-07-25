@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(MaterialApp(home: DetailPage()));
 }
 
 Widget singlecard() {
@@ -89,6 +89,104 @@ Widget singlecard() {
                             ), // Set the icon color to yellow
                           ),
                           Text("(4.0)"),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget showlecard() {
+  return Card(
+    elevation: 4, // shadow depth
+    shape: RoundedRectangleBorder(
+      side: BorderSide(color: Colors.grey), // Set border size and color
+      borderRadius: BorderRadius.circular(15), // rounded corners:w
+    ),
+    child: Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 0,
+        vertical: 0,
+      ), // inner spacing
+      child: SizedBox(
+        height: 240,
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(
+              height: 200,
+              width: double.infinity,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                ),
+                child: Image.asset(
+                  'assets/images/sample.jpeg',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
+              ),
+            ),
+
+            SizedBox(height: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsetsGeometry.symmetric(
+                    horizontal: 8,
+                    vertical: 0,
+                  ),
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Men's Shoe",
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w200),
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.star_rate,
+                            color: const Color.fromARGB(
+                              255,
+                              222,
+                              208,
+                              83,
+                            ), // Set the icon color to yellow
+                          ),
+                          Text("(4.0)"),
+                          Padding(
+                            padding: EdgeInsetsGeometry.symmetric(
+                              horizontal: 8,
+                            ),
+
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Nike",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+
+                                Text("120\$"),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -568,6 +666,45 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DetailPage extends StatefulWidget {
+  const DetailPage({super.key});
+  @override
+  _DetailPageState createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(40),
+                topRight: Radius.circular(40),
+              ),
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              height: 286,
+
+              child: showlecard(),
+            ),
+          ),
+          BackButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                const Color(0xFFFFFFFF),
+              ),
             ),
           ),
         ],
