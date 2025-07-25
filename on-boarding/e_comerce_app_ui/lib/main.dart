@@ -4,197 +4,251 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(home: DetailPage()));
+  runApp(MyApp());
 }
 
-Widget singlecard() {
-  return Card(
-    elevation: 4, // shadow depth
-    shape: RoundedRectangleBorder(
-      side: BorderSide(color: Colors.grey), // Set border size and color
-      borderRadius: BorderRadius.circular(15), // rounded corners:w
-    ),
-    child: Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 0,
-        vertical: 0,
-      ), // inner spacing
-      child: SizedBox(
-        height: 240,
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              height: 200,
-              width: double.infinity,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                ),
-                child: Image.asset(
-                  'assets/images/sample.jpeg',
-                  fit: BoxFit.cover,
-                  width: double.infinity,
+Widget singlecard(innerContext) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.of(
+        innerContext,
+      ).push(MaterialPageRoute(builder: (_) => const DetailPage()));
+    },
+    child: Card(
+      elevation: 4, // shadow depth
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Colors.grey), // Set border size and color
+        borderRadius: BorderRadius.circular(15), // rounded corners:w
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 0,
+          vertical: 0,
+        ), // inner spacing
+        child: SizedBox(
+          height: 240,
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 200,
+                width: double.infinity,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  ),
+                  child: Image.asset(
+                    'assets/images/sample.jpeg',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
                 ),
               ),
-            ),
 
-            SizedBox(height: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsetsGeometry.symmetric(horizontal: 8),
+              SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsGeometry.symmetric(horizontal: 8),
 
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Nike",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      Text("120\$"),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsetsGeometry.symmetric(
-                    horizontal: 8,
-                    vertical: 0,
-                  ),
-
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Men's Shoe",
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w200),
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.star_rate,
-                            color: const Color.fromARGB(
-                              255,
-                              222,
-                              208,
-                              83,
-                            ), // Set the icon color to yellow
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Nike",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Text("(4.0)"),
-                        ],
-                      ),
-                    ],
+                        ),
+
+                        Text("120\$"),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsetsGeometry.symmetric(
+                      horizontal: 8,
+                      vertical: 0,
+                    ),
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Men's Shoe",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w200,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star_rate,
+                              color: const Color.fromARGB(
+                                255,
+                                222,
+                                208,
+                                83,
+                              ), // Set the icon color to yellow
+                            ),
+                            Text("(4.0)"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     ),
   );
 }
 
+String des =
+    "The Nike Air Max is a versatile and stylish shoe designed for comfort and performance. Featuring a breathable mesh upper, cushioned sole, and iconic design, it's perfect for both casual wear and athletic activities.";
+Widget Description(String discription) {
+  return SizedBox(
+    width: double.infinity,
+    height: 200,
+    child: Text(discription, style: GoogleFonts.poppins(fontSize: 14)),
+  );
+}
+
+List<Widget> generate(int start, int end) {
+  List<Widget> boxes = [];
+  for (int i = start; i <= end; i++) {
+    boxes.add(box(i));
+    boxes.add(SizedBox(width: 16));
+  }
+
+  return boxes;
+}
+
 Widget showlecard() {
-  return Card(
-    elevation: 4, // shadow depth
-    shape: RoundedRectangleBorder(
-      side: BorderSide(color: Colors.grey), // Set border size and color
-      borderRadius: BorderRadius.circular(15), // rounded corners:w
-    ),
-    child: Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 0,
-        vertical: 0,
-      ), // inner spacing
-      child: SizedBox(
-        height: 240,
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              height: 200,
-              width: double.infinity,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                ),
-                child: Image.asset(
-                  'assets/images/sample.jpeg',
-                  fit: BoxFit.cover,
-                  width: double.infinity,
+  return Column(
+    // elevation: 4, // shadow depth
+    // shape: RoundedRectangleBorder(
+    //   side: BorderSide(color: Colors.grey), // Set border size and color
+    //   borderRadius: BorderRadius.circular(15), // rounded corners:w
+    // ),
+    children: [
+      Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 0,
+          vertical: 0,
+        ), // inner spacing
+        child: SizedBox(
+          height: 265,
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 200,
+                width: double.infinity,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  ),
+                  child: Image.asset(
+                    'assets/images/sample.jpeg',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
                 ),
               ),
-            ),
 
-            SizedBox(height: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsetsGeometry.symmetric(
-                    horizontal: 8,
-                    vertical: 0,
-                  ),
+              SizedBox(height: 5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsGeometry.symmetric(
+                      horizontal: 8,
+                      vertical: 0,
+                    ),
 
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Men's Shoe",
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w200),
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.star_rate,
-                            color: const Color.fromARGB(
-                              255,
-                              222,
-                              208,
-                              83,
-                            ), // Set the icon color to yellow
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Men's Shoe",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w200,
                           ),
-                          Text("(4.0)"),
-                          Padding(
-                            padding: EdgeInsetsGeometry.symmetric(
-                              horizontal: 8,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star_rate,
+                              color: const Color.fromARGB(
+                                255,
+                                222,
+                                208,
+                                83,
+                              ), // Set the icon color to yellow
                             ),
-
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Nike",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-
-                                Text("120\$"),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                            Text("(4.0)"),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  SizedBox(height: 5),
+                  Padding(
+                    padding: EdgeInsetsGeometry.symmetric(horizontal: 8),
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Nike",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        Text("120\$"),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget box(int cnt) {
+  return GestureDetector(
+    child: Container(
+      height: 60,
+      width: 60,
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 255, 255, 255), // Background color
+        borderRadius: BorderRadius.circular(12), // Rounded corners
+      ),
+      child: Center(
+        child: Text(
+          "$cnt",
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: const Color.fromARGB(255, 1, 1, 1), // Text color
+          ),
         ),
       ),
     ),
@@ -308,7 +362,7 @@ class MyApp extends StatelessWidget {
                             vertical: 0,
                             horizontal: 8,
                           ),
-                          child: singlecard(),
+                          child: singlecard(innerContext),
                         ),
                       ),
                     ),
@@ -535,7 +589,7 @@ class _SearchPageState extends State<SearchPage> {
   RangeValues _priceRange = RangeValues(0, 1000);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext innercontext) {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
@@ -580,7 +634,7 @@ class _SearchPageState extends State<SearchPage> {
                 10, // Number of items
                 (index) => Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: singlecard(),
+                  child: singlecard(innercontext),
                 ),
               ),
             ),
@@ -684,26 +738,123 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40),
-              ),
-            ),
-            child: SizedBox(
-              width: double.infinity,
-              height: 286,
+          Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 286,
 
-              child: showlecard(),
+                  child: showlecard(),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsGeometry.all(16),
+                child: BackButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      const Color(0xFFFFFFFF),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          SizedBox(height: 30),
+          Padding(
+            padding: EdgeInsets.all(8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Size:",
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
-          BackButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                const Color(0xFFFFFFFF),
+          Padding(
+            padding: EdgeInsetsGeometry.all(8),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: generate(39, 50),
+              ),
+            ),
+          ),
+          SizedBox(height: 2),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Description(des),
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 56,
+                            child: ElevatedButton(
+                              onPressed: () => print('ADD'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF3F51F3),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: Text(
+                                'ADD',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: SizedBox(
+                            height: 56,
+                            child: ElevatedButton(
+                              onPressed: () => print('DELETE'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                side: BorderSide(color: Colors.red, width: 2),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: Text(
+                                'DELETE',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
