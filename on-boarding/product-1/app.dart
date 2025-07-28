@@ -2,13 +2,13 @@ import 'dart:io';
 
 void main() {
   Product_Manager mn = Product_Manager();
+  print("");
   while (true) {
-    print("");
     print("1.add product");
     print("2.edit product");
     print("3.remove product");
     print("4.view a product");
-    print("5.view all product");
+    print("5.view all products");
     var input = stdin.readLineSync()?.trim();
     var choice;
     if (input != null && input.isNotEmpty) {

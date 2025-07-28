@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(HomePage());
+  runApp(const MyApp());
 }
 
 Widget singlecard(innerContext) {
@@ -15,11 +15,11 @@ Widget singlecard(innerContext) {
     child: Card(
       elevation: 4, // shadow depth
       shape: RoundedRectangleBorder(
-        side: BorderSide(color: Colors.grey), // Set border size and color
+        side: const BorderSide(color: Colors.grey), // Set border size and color
         borderRadius: BorderRadius.circular(15), // rounded corners:w
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 0,
           vertical: 0,
         ), // inner spacing
@@ -45,31 +45,35 @@ Widget singlecard(innerContext) {
                 ),
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
 
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Nike",
+                          'Nike',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
 
-                        Text("120\$"),
+                        Text('120\$'),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 0,
+                    ),
 
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -80,13 +84,13 @@ Widget singlecard(innerContext) {
                             fontWeight: FontWeight.w200,
                           ),
                         ),
-                        Row(
+                        const Row(
                           children: [
                             Icon(
                               Icons.star_rate,
-                              color: const Color.fromARGB(255, 222, 208, 83),
+                              color: Color.fromARGB(255, 222, 208, 83),
                             ),
-                            Text("(4.0)"),
+                            Text('(4.0)'),
                           ],
                         ),
                       ],
@@ -104,7 +108,7 @@ Widget singlecard(innerContext) {
 
 String des =
     "The Nike Air Max is a versatile and stylish shoe designed for comfort and performance. Featuring a breathable mesh upper, cushioned sole, and iconic design, it's perfect for both casual wear and athletic activities.";
-Widget Description(String discription) {
+Widget description(String discription) {
   return SizedBox(
     width: double.infinity,
     height: 200,
@@ -116,7 +120,7 @@ List<Widget> generate(int start, int end) {
   List<Widget> boxes = [];
   for (int i = start; i <= end; i++) {
     boxes.add(box(i));
-    boxes.add(SizedBox(width: 16));
+    boxes.add(const SizedBox(width: 16));
   }
 
   return boxes;
@@ -131,7 +135,7 @@ Widget showcard() {
     // ),
     children: [
       Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 0,
           vertical: 0,
         ), // inner spacing
@@ -157,12 +161,12 @@ Widget showcard() {
                 ),
               ),
 
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsetsGeometry.symmetric(
+                    padding: const EdgeInsetsGeometry.symmetric(
                       horizontal: 8,
                       vertical: 0,
                     ),
@@ -176,39 +180,39 @@ Widget showcard() {
                             fontWeight: FontWeight.w200,
                           ),
                         ),
-                        Row(
+                        const Row(
                           children: [
                             Icon(
                               Icons.star_rate,
-                              color: const Color.fromARGB(
+                              color: Color.fromARGB(
                                 255,
                                 222,
                                 208,
                                 83,
                               ), // Set the icon color to yellow
                             ),
-                            Text("(4.0)"),
+                            Text('(4.0)'),
                           ],
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 5),
-                  Padding(
+                  const SizedBox(height: 5),
+                  const Padding(
                     padding: EdgeInsetsGeometry.symmetric(horizontal: 8),
 
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Nike",
+                          'Nike',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
 
-                        Text("120\$"),
+                        Text('120\$'),
                       ],
                     ),
                   ),
@@ -233,7 +237,7 @@ Widget box(int cnt) {
       ),
       child: Center(
         child: Text(
-          "$cnt",
+          '$cnt',
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.w500,
@@ -245,14 +249,15 @@ Widget box(int cnt) {
   );
 }
 
-class HomePage extends StatelessWidget {
-  static const routeName = '/';
-  const HomePage({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // ← use initialRoute + routes, remove home:
       initialRoute: HomePage.routeName,
       routes: {
+        HomePage.routeName: (_) => const HomePage(),
         AddPage.routeName: (_) => const AddPage(),
         SearchPage.routeName: (_) => const SearchPage(),
         DetailPage.routeName: (_) => const DetailPage(),
@@ -260,109 +265,117 @@ class HomePage extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
       ),
-      home: Builder(
-        builder: (innerContext) => Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.of(innerContext).pushNamed(AddPage.routeName);
-            },
-            shape: CircleBorder(),
-            backgroundColor: const Color(0xFF3F51F3),
-            child: Text(
-              "+",
-              style: GoogleFonts.poppins(fontSize: 35, color: Colors.white),
-            ),
-          ),
-          body: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.all(30),
-              child: Column(
+    );
+  }
+}
+
+// Then your HomePage is just a Scaffold (no nested MaterialApp):
+class HomePage extends StatelessWidget {
+  static const routeName = '/';
+  const HomePage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(AddPage.routeName);
+        },
+        shape: const CircleBorder(),
+        backgroundColor: const Color(0xFF3F51F3),
+        child: Text(
+          '+',
+          style: GoogleFonts.poppins(fontSize: 35, color: Colors.white),
+        ),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 20, // Control the size of the avatar
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'July 14 ,2023',
+                            style: GoogleFonts.poppins(
+                              fontSize: 10,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          Text(
+                            'Hello , Yohannes',
+                            style: GoogleFonts.poppins(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Icon(
+                    Icons.notifications,
+                    size: 24,
+                  ), // Control icon size
+                ],
+              ),
+              Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 20, // Control the size of the avatar
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 8,
+                        ),
+                        child: Text(
+                          'Available Products',
+                          style: GoogleFonts.poppins(
+                            fontSize: 24, // Control text size
+                            fontWeight: FontWeight.w600,
                           ),
-                          SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "July 14 ,2023",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              Text(
-                                "Hello , Yohannes",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Icon(Icons.notifications, size: 24), // Control icon size
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 8,
-                            ),
-                            child: Text(
-                              "Available Products",
-                              style: GoogleFonts.poppins(
-                                fontSize: 24, // Control text size
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            child: Icon(Icons.search, size: 24),
-                            onTap: () {
-                              Navigator.of(
-                                innerContext,
-                              ).pushNamed(SearchPage.routeName);
-                            },
-                          ),
-                          // Control icon size
-                        ],
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: GridView.count(
-                      crossAxisCount: 1, // Number of columns
-                      crossAxisSpacing: 10, // Spacing between columns
-                      mainAxisSpacing: 20, // Spacing between rows
-                      childAspectRatio: 1.5, // Aspect ratio of each item
-                      children: List.generate(
-                        10, // Number of items
-                        (index) => Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 0,
-                            horizontal: 8,
-                          ),
-                          child: singlecard(innerContext),
                         ),
                       ),
-                    ),
+                      GestureDetector(
+                        child: const Icon(Icons.search, size: 24),
+                        onTap: () {
+                          Navigator.of(context).pushNamed(SearchPage.routeName);
+                        },
+                      ),
+                      // Control icon size
+                    ],
                   ),
                 ],
               ),
-            ),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 1, // Number of columns
+                  crossAxisSpacing: 10, // Spacing between columns
+                  mainAxisSpacing: 20, // Spacing between rows
+                  childAspectRatio: 1.5, // Aspect ratio of each item
+                  children: List.generate(
+                    10, // Number of items
+                    (index) => Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 8,
+                      ),
+                      child: singlecard(context),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -374,12 +387,12 @@ class AddPage extends StatefulWidget {
   static const routeName = '/add';
   const AddPage({super.key});
   @override
-  _AddPageState createState() => _AddPageState();
+  AddPageState createState() => AddPageState();
 }
 
-class _AddPageState extends State<AddPage> {
+class AddPageState extends State<AddPage> {
   final _formKey = GlobalKey<FormState>();
-  String _name = '', _price = '', _description = '';
+  // String _name = '', _price = '', _description = '';
 
   @override
   Widget build(BuildContext context) {
@@ -390,11 +403,11 @@ class _AddPageState extends State<AddPage> {
           'Add Product',
           style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
         ),
-        leading: BackButton(),
+        leading: const BackButton(),
       ),
 
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -416,7 +429,11 @@ class _AddPageState extends State<AddPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.image, size: 50, color: Colors.grey),
+                            const Icon(
+                              Icons.image,
+                              size: 50,
+                              color: Colors.grey,
+                            ),
                             Text(
                               'Tap to select an image',
                               style: GoogleFonts.poppins(
@@ -431,79 +448,88 @@ class _AddPageState extends State<AddPage> {
                   ),
                 ),
 
-                SizedBox(height: 10),
-                Align(
+                const SizedBox(height: 10),
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Name", textAlign: TextAlign.left),
+                  child: Text('Name', textAlign: TextAlign.left),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 SizedBox(
                   height: 56,
                   width: double.infinity,
                   child: TextFormField(
-                    decoration: InputDecoration(border: OutlineInputBorder()),
-                    onSaved: (v) => _name = v ?? '',
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                    // onSaved: (v) => _name = v ?? '',
                     validator: (v) =>
                         (v == null || v.isEmpty) ? 'Required' : null,
                   ),
                 ),
-                SizedBox(height: 10),
-                Align(
+                const SizedBox(height: 10),
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Price", textAlign: TextAlign.left),
+                  child: Text('Price', textAlign: TextAlign.left),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 SizedBox(
                   height: 56,
                   width: double.infinity,
                   child: TextFormField(
-                    decoration: InputDecoration(border: OutlineInputBorder()),
-                    onSaved: (v) => _name = v ?? '',
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                    // onSaved: (v) => _name = v ?? '',
                     validator: (v) =>
                         (v == null || v.isEmpty) ? 'Required' : null,
                   ),
                 ),
-                SizedBox(height: 10),
-                Align(
+                const SizedBox(height: 10),
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Catagory", textAlign: TextAlign.left),
+                  child: Text('Catagory', textAlign: TextAlign.left),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 SizedBox(
                   height: 56,
                   width: double.infinity,
                   child: TextFormField(
-                    decoration: InputDecoration(border: OutlineInputBorder()),
-                    onSaved: (v) => _name = v ?? '',
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                    // onSaved: (v) => _name = v ?? '',
                     validator: (v) =>
                         (v == null || v.isEmpty) ? 'Required' : null,
                   ),
                 ),
-                SizedBox(height: 10),
-                Align(
+                const SizedBox(height: 10),
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Description", textAlign: TextAlign.left),
+                  child: Text('Description', textAlign: TextAlign.left),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 SizedBox(
                   height: 190,
                   width: double.infinity,
                   child: TextFormField(
                     maxLines: 6,
-                    decoration: InputDecoration(border: OutlineInputBorder()),
-                    onSaved: (v) => _description = v ?? '',
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+
+                    // onSaved: (v) =>":_description = v ?? '',
                     validator: (v) =>
                         (v == null || v.isEmpty) ? 'Required' : null,
                   ),
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Padding(
-                  padding: EdgeInsets.all(19),
+                  padding: const EdgeInsets.all(19),
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         child: SizedBox(
                           width: double.infinity,
                           height: 56,
@@ -531,7 +557,7 @@ class _AddPageState extends State<AddPage> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         child: SizedBox(
                           width: double.infinity,
                           height: 56,
@@ -543,7 +569,10 @@ class _AddPageState extends State<AddPage> {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              side: BorderSide(color: Colors.red, width: 1),
+                              side: const BorderSide(
+                                color: Colors.red,
+                                width: 1,
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
@@ -575,13 +604,13 @@ class SearchPage extends StatefulWidget {
   static const routeName = '/search';
   const SearchPage({super.key});
   @override
-  _SearchPageState createState() => _SearchPageState();
+  SearchPageState createState() => SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class SearchPageState extends State<SearchPage> {
   final _formKey = GlobalKey<FormState>();
-  String _name = '', _price = '', _description = '';
-  RangeValues _priceRange = RangeValues(0, 1000);
+  // String _name = '', _price = '', _description = '';
+  RangeValues _priceRange = const RangeValues(0, 1000);
 
   @override
   Widget build(BuildContext innercontext) {
@@ -592,13 +621,13 @@ class _SearchPageState extends State<SearchPage> {
           'Search Product',
           style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
         ),
-        leading: BackButton(),
+        leading: const BackButton(),
       ),
 
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
             child: SizedBox(
               height: 48,
               width: double.infinity,
@@ -607,14 +636,16 @@ class _SearchPageState extends State<SearchPage> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      decoration: InputDecoration(border: OutlineInputBorder()),
-                      onSaved: (v) => _name = v ?? '',
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      // onSaved: (v) => _name = v ?? '',
                       validator: (v) =>
                           (v == null || v.isEmpty) ? 'Required' : null,
                     ),
                   ),
-                  SizedBox(width: 16),
-                  Icon(Icons.search, color: Colors.grey),
+                  const SizedBox(width: 16),
+                  const Icon(Icons.search, color: Colors.grey),
                 ],
               ),
             ),
@@ -628,7 +659,7 @@ class _SearchPageState extends State<SearchPage> {
               children: List.generate(
                 10, // Number of items
                 (index) => Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: singlecard(innercontext),
                 ),
               ),
@@ -636,31 +667,33 @@ class _SearchPageState extends State<SearchPage> {
           ),
 
           Padding(
-            padding: EdgeInsets.all(19),
+            padding: const EdgeInsets.all(19),
             child: Column(
               children: [
-                SizedBox(height: 0),
-                Align(
+                const SizedBox(height: 0),
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Category", textAlign: TextAlign.left),
+                  child: Text('Category', textAlign: TextAlign.left),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 SizedBox(
                   height: 56,
                   width: double.infinity,
                   child: TextFormField(
-                    decoration: InputDecoration(border: OutlineInputBorder()),
-                    onSaved: (v) => _name = v ?? '',
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                    // onSaved: (v) => _name := v ?? '',
                     validator: (v) =>
                         (v == null || v.isEmpty) ? 'Required' : null,
                   ),
                 ),
-                SizedBox(height: 25),
-                Align(
+                const SizedBox(height: 25),
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Price", textAlign: TextAlign.left),
+                  child: Text('Price', textAlign: TextAlign.left),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
 
                 RangeSlider(
                   activeColor: const Color(0xFF3F51F3),
@@ -687,7 +720,7 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: SizedBox(
                     width: double.infinity,
                     height: 56,
@@ -726,11 +759,12 @@ class _SearchPageState extends State<SearchPage> {
 class DetailPage extends StatefulWidget {
   static const routeName = '/detail';
   const DetailPage({super.key});
+
   @override
-  _DetailPageState createState() => _DetailPageState();
+  DetailPageState createState() => DetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -739,7 +773,7 @@ class _DetailPageState extends State<DetailPage> {
           Stack(
             children: [
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(40),
                     topRight: Radius.circular(40),
@@ -753,10 +787,10 @@ class _DetailPageState extends State<DetailPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsGeometry.all(16),
+                padding: const EdgeInsetsGeometry.all(16),
                 child: BackButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
+                    backgroundColor: WidgetStateProperty.all(
                       const Color(0xFFFFFFFF),
                     ),
                   ),
@@ -765,14 +799,14 @@ class _DetailPageState extends State<DetailPage> {
             ],
           ),
 
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Size:",
+                  'Size:',
                   style: GoogleFonts.poppins(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -782,7 +816,7 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsetsGeometry.all(8),
+            padding: const EdgeInsetsGeometry.all(8),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -791,23 +825,23 @@ class _DetailPageState extends State<DetailPage> {
               ),
             ),
           ),
-          SizedBox(height: 2),
+          const SizedBox(height: 2),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Description(des),
+                  description(des),
                   Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       children: [
                         Expanded(
                           child: SizedBox(
                             height: 56,
                             child: ElevatedButton(
-                              onPressed: () => print('ADD'),
+                              onPressed: () => {},
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF3F51F3),
                                 shape: RoundedRectangleBorder(
@@ -824,15 +858,18 @@ class _DetailPageState extends State<DetailPage> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 16),
+                        const SizedBox(width: 16),
                         Expanded(
                           child: SizedBox(
                             height: 56,
                             child: ElevatedButton(
-                              onPressed: () => print('DELETE'),
+                              onPressed: () => {},
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
-                                side: BorderSide(color: Colors.red, width: 2),
+                                side: const BorderSide(
+                                  color: Colors.red,
+                                  width: 2,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
