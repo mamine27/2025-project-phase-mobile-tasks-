@@ -6,13 +6,13 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<void> insertProduct(Product product) async {
-    _productStore[product.id] = product;
+    _productStore[product.id.toString()] = product;
   }
 
   @override
   Future<void> updateProduct(Product product) async {
-    if (_productStore.containsKey(product.id)) {
-      _productStore[product.id] = product;
+    if (_productStore.containsKey(product.id.toString())) {
+      _productStore[product.id.toString()] = product;
     } else {
       throw Exception('Product not found');
     }
