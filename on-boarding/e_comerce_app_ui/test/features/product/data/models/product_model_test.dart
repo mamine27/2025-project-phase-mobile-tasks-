@@ -5,7 +5,7 @@ void main() {
   group('ProductModel (de)serialization', () {
     // 1) A "golden" JSON map
     const Map<String, dynamic> tJson = {
-      'id': 42,
+      'id': '42',
       'name': 'Air Max 2025',
       'description': 'Premium running shoes',
       'price': 199.99,
@@ -14,7 +14,7 @@ void main() {
 
     // 2) The corresponding Dart object
     final tModel = ProductModel(
-      id: 42,
+      id: '42',
       name: 'Air Max 2025',
       description: 'Premium running shoes',
       price: 199.99,
