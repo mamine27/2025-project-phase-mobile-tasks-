@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import './features/product/Presentation/Pages/Splash_Screen..dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -255,12 +256,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       // ← use initialRoute + routes, remove home:
-      initialRoute: HomePage.routeName,
+      // initialRoute: HomePage.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
         HomePage.routeName: (_) => const HomePage(),
         AddPage.routeName: (_) => const AddPage(),
         SearchPage.routeName: (_) => const SearchPage(),
         DetailPage.routeName: (_) => const DetailPage(),
+        SplashScreen.routeName: (_) => const SplashScreen(),
       },
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
