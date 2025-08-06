@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './features/product/Presentation/Pages/Splash_Screen..dart';
 import './features/product/Presentation/Pages/Sign_in.dart';
+import './features/product/Presentation/Pages/Sign_up.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -259,7 +260,9 @@ class MyApp extends StatelessWidget {
       // ← use initialRoute + routes, remove home:
       // initialRoute: HomePage.routeName,
       // initialRoute: SplashScreen.routeName,
-      initialRoute: SignIn.routeName,
+
+      // initialRoute: SignIn.routeName,
+      initialRoute: SignUp.routName,
       routes: {
         HomePage.routeName: (_) => const HomePage(),
         AddPage.routeName: (_) => const AddPage(),
@@ -267,6 +270,7 @@ class MyApp extends StatelessWidget {
         DetailPage.routeName: (_) => const DetailPage(),
         SplashScreen.routeName: (_) => const SplashScreen(),
         SignIn.routeName: (_) => const SignIn(),
+        SignUp.routName: (_) => const SignUp(),
       },
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
@@ -275,7 +279,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Then your HomePage is just a Scaffold (no nested MaterialApp):
 class HomePage extends StatelessWidget {
   static const routeName = '/';
   const HomePage({super.key});
