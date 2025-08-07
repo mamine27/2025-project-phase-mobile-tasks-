@@ -37,11 +37,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, void>> signUp(String email, String password) async {
+  Future<Either<Failure, void>> signUp(
+    String email,
+    String password,
+    String name,
+  ) async {
     try {
       final response = await apiClient.post(
         '/auth/register',
-        body: {'email': email, 'password': password},
+        body: {'email': email, 'password': password, 'name': name},
       );
 
       return response.statusCode == 201
@@ -89,6 +93,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           );
 
           // 3. Check response status
+          print(response.statusCode);
           if (response.statusCode == 200) {
             return const Right(true);
           } else {

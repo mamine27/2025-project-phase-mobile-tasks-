@@ -35,9 +35,13 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> signUp(String email, String password) async {
+  Future<Either<Failure, void>> signUp(
+    String email,
+    String password,
+    String name,
+  ) async {
     if (await _networkInfo.isConnected) {
-      return await _authRemoteDataSource.signUp(email, password);
+      return await _authRemoteDataSource.signUp(email, password, name);
     } else {
       return const Left(NetworkFailure());
     }

@@ -8,12 +8,14 @@ import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/presentations/pages/Sign_in.dart';
 import 'features/auth/presentations/pages/Sign_up.dart';
 import 'features/auth/presentations/pages/Splash_Screen..dart';
+import 'injection_container.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final apiclient = ApiClient();
   final authlocal = AuthLocalDatasourceImpl();
   final authremote = AuthRemoteDataSourceImpl(apiclient, authlocal);
+  setupLocator(apiclient, authlocal);
   runApp(MyApp(authremote: authremote));
 }
 
@@ -268,8 +270,7 @@ class MyApp extends StatelessWidget {
       // ← use initialRoute + routes, remove home:
       // initialRoute: HomePage.routeName,
       initialRoute: SplashScreen.routeName,
-
-      // initialRoute: SignIn.routeName,
+      // initialRoute: SignUp.routeName,
       // initialRoute: SignUp.routName,
       routes: {
         HomePage.routeName: (_) => const HomePage(),
@@ -278,7 +279,7 @@ class MyApp extends StatelessWidget {
         DetailPage.routeName: (_) => const DetailPage(),
         SplashScreen.routeName: (_) => SplashScreen(authremote: authremote),
         SignIn.routeName: (_) => const SignIn(),
-        SignUp.routName: (_) => const SignUp(),
+        SignUp.routeName: (_) => const SignUp(),
       },
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),

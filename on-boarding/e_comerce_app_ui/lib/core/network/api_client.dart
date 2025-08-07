@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiClient {
   final String baseUrl =
-      'https://g5-flutter-learning-path-be.onrender.com/api/v2/';
+      'https://g5-flutter-learning-path-be-tvum.onrender.com/api/v2';
   final Map<String, String> defaultHeaders;
 
   ApiClient({this.defaultHeaders = const {}});
