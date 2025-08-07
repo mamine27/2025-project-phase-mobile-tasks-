@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../injection_container.dart';
 import '../../data/datasources/auth_remote_datasource_impl.dart';
 
 // Import your auth datasource here
 // import 'path_to_auth_remote_datasource_impl.dart';
 
 class SplashScreen extends StatefulWidget {
-  final AuthRemoteDataSourceImpl authremote;
-  const SplashScreen({super.key, required this.authremote});
+  const SplashScreen({super.key});
   static const routeName = '/splash';
 
   @override
@@ -17,7 +17,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   // Inject your authRemote here (or pass it via constructor)
   // For example:
-
+  final authremote = sl<AuthRemoteDataSourceImpl>();
   @override
   void initState() {
     super.initState();
@@ -27,13 +27,15 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkAuth() async {
-    await Future.delayed(
-      const Duration(seconds: 2),
-    ); // Force splash screen delay
+    await Future.delayed(const Duration(seconds: 2)); // Splash screen delay
 
-    final result = await widget.authremote.isSignedIn();
-    print('is signed in : $result');
-    final isSignedIn = result.fold((failure) => false, (signedIn) => signedIn);
+    final result = await authremote.isSignedIn(); // returns Either
+    print('isSignedIn result: $result');
+
+    final isSignedIn = result.fold((failure) {
+      print('Error: ${failure.message}');
+      return false;
+    }, (signedIn) => signedIn);
 
     if (mounted) {
       Navigator.pushReplacementNamed(context, isSignedIn ? '/' : '/signin');

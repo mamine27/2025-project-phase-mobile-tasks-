@@ -76,11 +76,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
   }
 
+  @override
   Future<Either<Failure, bool>> isSignedIn() async {
     try {
       // 1. Get token from local storage
       final tokenResult = await authLocalDatasource.getAccessToken();
-
       return await tokenResult.fold(
         (failure) async {
           return const Right(false);
@@ -88,7 +88,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         (token) async {
           // 2. Send API request with token in headers
           final response = await apiClient.get(
-            '/auth/me',
+            '/users/me',
             headers: {'Authorization': 'Bearer $token'},
           );
 

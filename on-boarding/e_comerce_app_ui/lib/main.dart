@@ -277,7 +277,7 @@ class MyApp extends StatelessWidget {
         AddPage.routeName: (_) => const AddPage(),
         SearchPage.routeName: (_) => const SearchPage(),
         DetailPage.routeName: (_) => const DetailPage(),
-        SplashScreen.routeName: (_) => SplashScreen(authremote: authremote),
+        SplashScreen.routeName: (_) => SplashScreen(),
         SignIn.routeName: (_) => const SignIn(),
         SignUp.routeName: (_) => const SignUp(),
       },

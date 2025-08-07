@@ -41,6 +41,24 @@ class _SignInState extends State<SignIn> {
         (_) {
           // Show success and navigate
           print("w");
+          print(authremote.authLocalDatasource.getAccessToken());
+          Future<void> _printAccessToken() async {
+            try {
+              final token = await authremote.authLocalDatasource
+                  .getAccessToken();
+
+              if (token != null) {
+                print('Access token: $token');
+              } else {
+                print('Access token is null or empty');
+              }
+            } catch (e) {
+              print('Failed to get access token: $e');
+            }
+          }
+
+          _printAccessToken();
+
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(const SnackBar(content: Text('Sign in successful!')));
