@@ -72,11 +72,30 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
   }
 
-  @override
   Future<Either<Failure, bool>> isSignedIn() async {
     try {
-      final response = await apiClient.get('/auth/me');
-      return Right(response.statusCode == 200);
+      // 1. Get token from local storage
+      final tokenResult = await authLocalDatasource.getAccessToken();
+
+      return await tokenResult.fold(
+        (failure) async {
+          return const Right(false);
+        },
+        (token) async {
+          // 2. Send API request with token in headers
+          final response = await apiClient.get(
+            '/auth/me',
+            headers: {'Authorization': 'Bearer $token'},
+          );
+
+          // 3. Check response status
+          if (response.statusCode == 200) {
+            return const Right(true);
+          } else {
+            return const Right(false);
+          }
+        },
+      );
     } catch (e) {
       return Left(ServerFailure('Failed to check sign-in status: $e'));
     }

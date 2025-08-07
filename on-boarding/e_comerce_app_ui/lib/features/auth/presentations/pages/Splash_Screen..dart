@@ -1,9 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../data/datasources/auth_remote_datasource_impl.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+// Import your auth datasource here
+// import 'path_to_auth_remote_datasource_impl.dart';
+
+class SplashScreen extends StatefulWidget {
+  final AuthRemoteDataSourceImpl authremote;
+  const SplashScreen({super.key, required this.authremote});
   static const routeName = '/splash';
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  // Inject your authRemote here (or pass it via constructor)
+  // For example:
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      _checkAuth();
+    });
+  }
+
+  Future<void> _checkAuth() async {
+    await Future.delayed(
+      const Duration(seconds: 2),
+    ); // Force splash screen delay
+
+    final result = await widget.authremote.isSignedIn();
+    print('is signed in : $result');
+    final isSignedIn = result.fold((failure) => false, (signedIn) => signedIn);
+
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, isSignedIn ? '/' : '/signin');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +105,8 @@ class SplashScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 50),
+                const CircularProgressIndicator(color: Colors.white),
               ],
             ),
           ),

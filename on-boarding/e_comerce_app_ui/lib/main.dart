@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'core/network/api_client.dart';
+import 'features/auth/data/datasources/auth_local_datasource_impl.dart';
+import 'features/auth/data/datasources/auth_remote_datasource_impl.dart';
+import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/presentations/pages/Sign_in.dart';
 import 'features/auth/presentations/pages/Sign_up.dart';
 import 'features/auth/presentations/pages/Splash_Screen..dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  final apiclient = ApiClient();
+  final authlocal = AuthLocalDatasourceImpl();
+  final authremote = AuthRemoteDataSourceImpl(apiclient, authlocal);
+  runApp(MyApp(authremote: authremote));
 }
 
 Widget singlecard(innerContext) {
@@ -253,22 +260,23 @@ Widget box(int cnt) {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AuthRemoteDataSourceImpl authremote;
+  const MyApp({super.key, required this.authremote});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       // ← use initialRoute + routes, remove home:
       // initialRoute: HomePage.routeName,
-      // initialRoute: SplashScreen.routeName,
+      initialRoute: SplashScreen.routeName,
 
       // initialRoute: SignIn.routeName,
-      initialRoute: SignUp.routName,
+      // initialRoute: SignUp.routName,
       routes: {
         HomePage.routeName: (_) => const HomePage(),
         AddPage.routeName: (_) => const AddPage(),
         SearchPage.routeName: (_) => const SearchPage(),
         DetailPage.routeName: (_) => const DetailPage(),
-        SplashScreen.routeName: (_) => const SplashScreen(),
+        SplashScreen.routeName: (_) => SplashScreen(authremote: authremote),
         SignIn.routeName: (_) => const SignIn(),
         SignUp.routName: (_) => const SignUp(),
       },
