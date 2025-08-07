@@ -55,7 +55,7 @@ class SignIn extends StatelessWidget {
 
           const SizedBox(height: 20),
           Padding(
-            padding: EdgeInsetsGeometry.symmetric(horizontal: 40),
+            padding: const EdgeInsetsGeometry.symmetric(horizontal: 40),
             child: Column(
               children: [
                 const SizedBox(height: 10),
@@ -69,7 +69,7 @@ class SignIn extends StatelessWidget {
                   width: double.infinity,
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "ex: jon.smith@email.com",
+                      hintText: 'ex: jon.smith@email.com',
                       hintStyle: TextStyle(color: Color(0xff888888)),
                       border: OutlineInputBorder(),
                     ),
@@ -88,7 +88,7 @@ class SignIn extends StatelessWidget {
                   width: double.infinity,
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "********",
+                      hintText: '********',
                       hintStyle: TextStyle(color: Color(0xff888888)),
                       border: OutlineInputBorder(),
                     ),

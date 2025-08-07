@@ -40,7 +40,10 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   shared_preferences: ^2.2.3
   bloc: ^9.0.0
+  build_runner: ^2.4.6
+  test: ^1.24.9
 
+  http: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -52,10 +55,11 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+  # For information on the generic Dart part of this file, see the
+  # following page: https://dart.dev/tools/pub/pubspec
 
-# The following section is specific to Flutter packages.
+  # The following section is specific to Flutter packages.
+  mockito: any
 flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

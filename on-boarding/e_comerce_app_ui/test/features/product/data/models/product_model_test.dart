@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:e_comerce_app_ui/features/product/data/models/product_model.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ProductModel (de)serialization', () {
@@ -13,7 +13,7 @@ void main() {
     };
 
     // 2) The corresponding Dart object
-    final tModel = ProductModel(
+    final tModel = const ProductModel(
       id: '42',
       name: 'Air Max 2025',
       description: 'Premium running shoes',

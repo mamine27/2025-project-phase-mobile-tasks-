@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
-import './features/product/Presentation/Pages/Splash_Screen..dart';
-import './features/product/Presentation/Pages/Sign_in.dart';
-import './features/product/Presentation/Pages/Sign_up.dart';
+
+import 'features/auth/presentations/pages/Sign_in.dart';
+import 'features/auth/presentations/pages/Sign_up.dart';
+import 'features/auth/presentations/pages/Splash_Screen..dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

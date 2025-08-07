@@ -31,7 +31,7 @@ class SplashScreen extends StatelessWidget {
           Container(
             width: screenWidth,
             height: screenHeight,
-            color: Color.fromARGB(255, 43, 73, 224).withOpacity(0.7),
+            color: const Color.fromARGB(255, 43, 73, 224).withOpacity(0.7),
           ),
           Center(
             child: Column(
@@ -59,7 +59,7 @@ class SplashScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Center(
                   child: Text(
                     'Ecommerce APP',

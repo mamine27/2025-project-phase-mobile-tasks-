@@ -2,17 +2,12 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
+import '../../../../core/network/network_info.dart';
+import '../../data/datasources/local_data_source.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
-import '../../domain/usecases/get_product.dart';
-import '../../data/datasources/local_data_source_impl.dart';
-import '../../data/datasources/remote_data_source_impl.dart';
-import '../../domain/usecases/create_product.dart';
 import '../datasources/remote_data_source.dart';
-import '../../data/datasources/local_data_source.dart';
-import '../../../../core/network/network_info.dart';
 import '../models/product_mapper.dart';
-import '../models/product_model.dart';
 
 class ProductRepositoryImpl extends ProductRepository {
   final ProductRemoteDataSource _productRemoteDataSource;
@@ -78,7 +73,7 @@ class ProductRepositoryImpl extends ProductRepository {
         return Left(ServerFailure(e.message));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure());
     }
   }
 

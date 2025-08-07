@@ -10,6 +10,7 @@ class CreateProduct implements UseCase<Product, Product> {
 
   CreateProduct(this.repository);
 
+  @override
   Future<Either<Failure, Product>> call(Product product) async {
     return await repository.createProduct(product);
   }
