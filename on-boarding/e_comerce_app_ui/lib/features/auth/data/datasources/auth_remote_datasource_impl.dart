@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/api_client.dart';
 import '../../domain/entities/user.dart' show User;
+import '../models/user_model.dart';
 import 'auth_local_datasource.dart';
 import 'auth_remote_datasource.dart';
 
@@ -27,6 +28,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         final data = jsonDecode(response.body);
         final token = data['data']['access_token'];
         await authLocalDatasource.saveAccessToken(token);
+
         return const Right(null);
       } else {
         return Left(ServerFailure(_extractMessage(response)));
@@ -77,13 +79,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, bool>> isSignedIn() async {
+  Future<Either<Failure, UserModel>> isSignedIn() async {
     try {
       // 1. Get token from local storage
       final tokenResult = await authLocalDatasource.getAccessToken();
       return await tokenResult.fold(
         (failure) async {
-          return const Right(false);
+          return const Left(CacheFailure("no access token"));
         },
         (token) async {
           // 2. Send API request with token in headers
@@ -93,11 +95,25 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           );
 
           // 3. Check response status
-          print(response.statusCode);
+
           if (response.statusCode == 200) {
-            return const Right(true);
+            final data = jsonDecode(response.body);
+            final userData = data['data'];
+            if (userData != null) {
+              return Right(
+                UserModel(
+                  email: userData['email'] ?? '',
+                  name:
+                      userData['name'] ??
+                      '', // Update this to 'fullName' if applicable
+                  id: userData['_id'] ?? '',
+                ),
+              );
+            } else {
+              return const Left(ServerFailure('Invalid user data'));
+            }
           } else {
-            return const Right(false);
+            return Left(ServerFailure(_extractMessage(response)));
           }
         },
       );
@@ -109,6 +125,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   String _extractMessage(http.Response response) {
     try {
       final data = jsonDecode(response.body);
+      print("data : $data");
       return data['message'] ?? 'Unknown error';
     } catch (_) {
       return 'Unknown error';

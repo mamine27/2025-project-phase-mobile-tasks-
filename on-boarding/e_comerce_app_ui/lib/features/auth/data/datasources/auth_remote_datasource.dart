@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../domain/entities/user.dart';
+import '../models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<Either<Failure, void>> signIn(String email, String password);
@@ -12,5 +13,5 @@ abstract class AuthRemoteDataSource {
     String name,
   );
   Future<Either<Failure, User>> getCurrentUser();
-  Future<Either<Failure, bool>> isSignedIn();
+  Future<Either<Failure, UserModel>> isSignedIn();
 }

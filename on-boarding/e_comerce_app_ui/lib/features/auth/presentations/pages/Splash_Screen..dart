@@ -32,10 +32,26 @@ class _SplashScreenState extends State<SplashScreen> {
     final result = await authremote.isSignedIn(); // returns Either
     print('isSignedIn result: $result');
 
-    final isSignedIn = result.fold((failure) {
-      print('Error: ${failure.message}');
-      return false;
-    }, (signedIn) => signedIn);
+    final isSignedIn = result.fold(
+      (failure) {
+        // Replace print with a logging framework
+        debugPrint('Error: ${failure.message}');
+        return false;
+      },
+      (userModel) {
+        if (userModel != null) {
+          final name = userModel.name;
+          debugPrint('User Name: ${userModel.name}');
+          debugPrint('User Email: ${userModel.email}');
+          debugPrint('User ID: ${userModel.id}');
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Welcome back! $name')));
+          return true;
+        }
+        return false;
+      },
+    );
 
     if (mounted) {
       Navigator.pushReplacementNamed(context, isSignedIn ? '/' : '/signin');
