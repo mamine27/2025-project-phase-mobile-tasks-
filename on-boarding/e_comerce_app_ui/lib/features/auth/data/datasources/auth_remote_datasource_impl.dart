@@ -100,13 +100,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             final data = jsonDecode(response.body);
             final userData = data['data'];
             if (userData != null) {
+              print("Access tole : $token");
               return Right(
                 UserModel(
                   email: userData['email'] ?? '',
                   name:
                       userData['name'] ??
                       '', // Update this to 'fullName' if applicable
-                  id: userData['_id'] ?? '',
+                  id: userData['id'] ?? '',
                 ),
               );
             } else {

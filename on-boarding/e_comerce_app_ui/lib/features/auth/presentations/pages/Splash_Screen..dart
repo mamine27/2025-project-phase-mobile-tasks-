@@ -54,7 +54,10 @@ class _SplashScreenState extends State<SplashScreen> {
     );
 
     if (mounted) {
-      Navigator.pushReplacementNamed(context, isSignedIn ? '/' : '/signin');
+      Navigator.pushReplacementNamed(
+        context,
+        isSignedIn ? '/socket-test' : '/signin',
+      );
     }
   }
 
