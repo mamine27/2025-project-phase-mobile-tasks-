@@ -28,4 +28,6 @@ class MessageModel extends Message {
       content: (json['content'] ?? '').toString(),
     );
   }
+
+  toJson() {}
 }

@@ -40,11 +40,12 @@ class _SignInState extends State<SignIn> {
         },
         (_) {
           // Show success and navigate
-
+          print('here');
+          print(authremote.authLocalDatasource.getAccessToken());
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(const SnackBar(content: Text('Sign in successful!')));
-          Navigator.pushReplacementNamed(context, '/');
+          Navigator.pushReplacementNamed(context, '/chat-list');
         },
       );
     }

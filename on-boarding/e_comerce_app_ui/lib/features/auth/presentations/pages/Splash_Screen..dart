@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../injection_container.dart';
+import '../../../chat/presentation/pages/chat_list_page.dart';
 import '../../data/datasources/auth_remote_datasource_impl.dart';
 
 // Import your auth datasource here
@@ -39,24 +40,21 @@ class _SplashScreenState extends State<SplashScreen> {
         return false;
       },
       (userModel) {
-        if (userModel != null) {
-          final name = userModel.name;
-          debugPrint('User Name: ${userModel.name}');
-          debugPrint('User Email: ${userModel.email}');
-          debugPrint('User ID: ${userModel.id}');
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('Welcome back! $name')));
-          return true;
-        }
-        return false;
+        final name = userModel.name;
+        debugPrint('User Name: ${userModel.name}');
+        debugPrint('User Email: ${userModel.email}');
+        debugPrint('User ID: ${userModel.id}');
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Welcome back! $name')));
+        return true;
       },
     );
 
     if (mounted) {
       Navigator.pushReplacementNamed(
         context,
-        isSignedIn ? '/socket-test' : '/signin',
+        isSignedIn ? ChatListPage.routeName : '/signin',
       );
     }
   }

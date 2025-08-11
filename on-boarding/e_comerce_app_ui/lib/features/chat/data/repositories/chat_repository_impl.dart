@@ -50,14 +50,14 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Either<Failure, Message>> sendMessage(
+  Future<Either<Failure, Unit>> sendMessage(
     String chatId,
     String message,
     String type,
   ) async {
     try {
-      final msg = await remote.sendMessage(chatId, message, type);
-      return Right(msg);
+      await remote.sendMessage(chatId, message, type);
+      return const Right(unit);
     } on Failure catch (f) {
       return Left(f);
     } catch (e) {
@@ -66,19 +66,24 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Stream<Either<Failure, Message>>> getChatMessages(String id) async {
+  Stream<Either<Failure, Message>> getChatMessages(String id) {
+    final controller = StreamController<Either<Failure, Message>>();
+    StreamSubscription? sub;
     try {
-      final stream = remote
+      sub = remote
           .subscribeMessages(id)
-          .map<Either<Failure, Message>>((msg) => Right(msg))
-          .handleError((e, _) {
-            return Left(ServerFailure(e.toString()));
-          });
-      return stream;
-    } on Failure catch (f) {
-      return Future.value(Stream.value(Left(f)));
+          .listen(
+            (m) => controller.add(Right(m)),
+            onError: (err) =>
+                controller.add(Left(ServerFailure(err.toString()))),
+            onDone: controller.close,
+            cancelOnError: false,
+          );
     } catch (e) {
-      return Future.value(Stream.value(Left(ServerFailure('Unexpected: $e'))));
+      controller.add(Left(ServerFailure('Unexpected: $e')));
+      controller.close();
     }
+    controller.onCancel = () => sub?.cancel();
+    return controller.stream;
   }
 }

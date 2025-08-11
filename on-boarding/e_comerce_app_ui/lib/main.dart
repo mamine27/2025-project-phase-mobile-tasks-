@@ -1,20 +1,21 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'core/network/api_client.dart';
-import 'features/auth/data/datasources/auth_local_datasource_impl.dart';
-import 'features/auth/data/datasources/auth_remote_datasource_impl.dart';
+// removed unused imports
 import 'features/auth/presentations/pages/Sign_in.dart';
 import 'features/auth/presentations/pages/Sign_up.dart';
 import 'features/auth/presentations/pages/Splash_Screen..dart';
+import 'features/chat/presentation/pages/chat_list_page.dart';
+import 'features/chat/presentation/pages/chat_conversation_page.dart';
+import 'features/chat/presentation/pages/socket_debug_page.dart';
 import 'injection_container.dart';
+import 'injection_chat.dart';
 import 'test.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupLocator();
+  await setupLocator();
+  registerChatModule();
   runApp(const MyApp());
 }
 
@@ -37,6 +38,9 @@ class MyApp extends StatelessWidget {
         SignIn.routeName: (_) => const SignIn(),
         SignUp.routeName: (_) => const SignUp(),
         WebSocketTestPage.routeName: (_) => WebSocketTestPage(),
+        ChatListPage.routeName: (_) => const ChatListPage(),
+        ChatConversationPage.routeName: (_) => const ChatConversationPage(),
+        SocketDebugPage.routeName: (_) => const SocketDebugPage(),
       },
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
@@ -204,7 +208,7 @@ Widget showcard() {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsetsGeometry.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 8,
                       vertical: 0,
                     ),
@@ -331,6 +335,31 @@ class HomePage extends StatelessWidget {
           style: GoogleFonts.poppins(fontSize: 35, color: Colors.white),
         ),
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.home),
+              onPressed: () {
+                Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.chat),
+              onPressed: () {
+                Navigator.of(context).pushNamed(ChatListPage.routeName);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.person),
+              onPressed: () {
+                // TODO: Navigate to profile page
+              },
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(30),
@@ -390,13 +419,36 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        child: const Icon(Icons.search, size: 24),
-                        onTap: () {
-                          Navigator.of(context).pushNamed(SearchPage.routeName);
-                        },
+                      Row(
+                        children: [
+                          GestureDetector(
+                            child: const Icon(Icons.chat, size: 24),
+                            onTap: () {
+                              Navigator.of(
+                                context,
+                              ).pushNamed(ChatListPage.routeName);
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          GestureDetector(
+                            child: const Icon(Icons.bug_report, size: 24),
+                            onTap: () {
+                              Navigator.of(
+                                context,
+                              ).pushNamed(SocketDebugPage.routeName);
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          GestureDetector(
+                            child: const Icon(Icons.search, size: 24),
+                            onTap: () {
+                              Navigator.of(
+                                context,
+                              ).pushNamed(SearchPage.routeName);
+                            },
+                          ),
+                        ],
                       ),
-                      // Control icon size
                     ],
                   ),
                 ],
@@ -831,10 +883,10 @@ class DetailPageState extends State<DetailPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsGeometry.all(16),
+                padding: const EdgeInsets.all(16),
                 child: BackButton(
                   style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(
+                    backgroundColor: MaterialStateProperty.all(
                       const Color(0xFFFFFFFF),
                     ),
                   ),

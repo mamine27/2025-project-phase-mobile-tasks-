@@ -29,6 +29,28 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         final token = data['data']['access_token'];
         await authLocalDatasource.saveAccessToken(token);
 
+        // Optionally fetch /users/me to cache user (so getCurrentUser works)
+        try {
+          final meResp = await apiClient.get(
+            '/users/me',
+            headers: {'Authorization': 'Bearer $token'},
+          );
+          if (meResp.statusCode == 200) {
+            final meJson = jsonDecode(meResp.body);
+            final userData = meJson['data'];
+            if (userData != null) {
+              final userModel = UserModel(
+                id: (userData['_id'] ?? userData['id'] ?? '').toString(),
+                email: userData['email'] ?? '',
+                name: userData['name'] ?? '',
+              );
+              await authLocalDatasource.saveUser(userModel);
+            }
+          }
+        } catch (_) {
+          // silent; token still valid
+        }
+
         return const Right(null);
       } else {
         return Left(ServerFailure(_extractMessage(response)));
@@ -104,10 +126,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
               return Right(
                 UserModel(
                   email: userData['email'] ?? '',
-                  name:
-                      userData['name'] ??
-                      '', // Update this to 'fullName' if applicable
-                  id: userData['id'] ?? '',
+                  name: userData['name'] ?? '',
+                  id: (userData['_id'] ?? userData['id'] ?? '').toString(),
                 ),
               );
             } else {

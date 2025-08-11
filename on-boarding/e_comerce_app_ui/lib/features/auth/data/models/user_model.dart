@@ -8,7 +8,11 @@ class UserModel extends User {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(id: json['id'], email: json['email'], name: json['name']);
+    return UserModel(
+      id: (json['_id'] ?? json['id'] ?? '').toString(),
+      email: (json['email'] ?? '').toString(),
+      name: (json['name'] ?? json['fullName'] ?? '').toString(),
+    );
   }
 
   User toEntity() {
@@ -16,6 +20,6 @@ class UserModel extends User {
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'email': email, 'name': name}; // include name
+    return {'id': id, 'email': email, 'name': name};
   }
 }

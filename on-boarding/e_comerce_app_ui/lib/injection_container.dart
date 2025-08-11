@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/socket.dart';
 import 'core/network/api_client.dart';
+import 'features/auth/data/datasources/auth_local_datasource.dart';
 import 'features/auth/data/datasources/auth_local_datasource_impl.dart';
 import 'features/auth/data/datasources/auth_remote_datasource_impl.dart';
 import 'features/chat/data/datasources/remote/chat_remote_datasource_impl.dart';
@@ -14,53 +16,47 @@ final sl = GetIt.instance;
 const String kRestBase =
     'https://g5-flutter-learning-path-be-tvum.onrender.com/api/v3';
 
-void setupLocator() {
-  // Http client
+Future<void> setupLocator() async {
+  final prefs = await SharedPreferences.getInstance();
+
+  // Auth local (interface -> impl)
+  if (!sl.isRegistered<AuthLocalDatasource>()) {
+    sl.registerLazySingleton<AuthLocalDatasource>(
+      () => AuthLocalDatasourceImpl(prefs),
+    );
+  }
+
+  // HTTP client
   if (!sl.isRegistered<http.Client>()) {
     sl.registerLazySingleton<http.Client>(() => http.Client());
   }
 
-  // Api client (if you have one already adjust)
+  // Api client
   if (!sl.isRegistered<ApiClient>()) {
     sl.registerLazySingleton<ApiClient>(() => ApiClient());
   }
 
-  // Auth local
-  if (!sl.isRegistered<AuthLocalDatasourceImpl>()) {
-    sl.registerLazySingleton<AuthLocalDatasourceImpl>(
-      () => AuthLocalDatasourceImpl(),
-    );
-  }
-
-  // Auth remote
+  // Auth remote (use interface type, DO NOT request impl that is not registered)
   if (!sl.isRegistered<AuthRemoteDataSourceImpl>()) {
     sl.registerLazySingleton<AuthRemoteDataSourceImpl>(
-      () => AuthRemoteDataSourceImpl(
-        sl<ApiClient>(),
-        sl<AuthLocalDatasourceImpl>(),
-      ),
+      () =>
+          AuthRemoteDataSourceImpl(sl<ApiClient>(), sl<AuthLocalDatasource>()),
     );
   }
 
-  // WebSocket
+  // Socket (after auth local so it can pull token)
   if (!sl.isRegistered<WebSocketService>()) {
     sl.registerLazySingleton<WebSocketService>(() => WebSocketService());
   }
 
-  // ChatRemoteDataSourceImpl deps:
-  // - http.Client
-  // - WebSocketService
-  // - baseUrl (string)
-  // - tokenProvider () => Future<String?>
-  // - userFromJson mapper
+  // Chat remote
   if (!sl.isRegistered<ChatRemoteDataSourceImpl>()) {
     sl.registerLazySingleton<ChatRemoteDataSourceImpl>(
       () => ChatRemoteDataSourceImpl(
-        client: sl(),
-        socketService: sl(),
+        client: sl<http.Client>(),
+        socketService: sl<WebSocketService>(),
         baseUrl: kRestBase,
-        tokenProvider: () async => sl<AuthRemoteDataSourceImpl>()
-            .authLocalDatasource
+        tokenProvider: () async => sl<AuthLocalDatasource>()
             .getAccessToken()
             .then((e) => e.fold((_) => null, (t) => t)),
         userFromJson: (m) => User(
@@ -68,8 +64,10 @@ void setupLocator() {
           email: (m['email'] ?? '').toString(),
           name: (m['name'] ?? m['fullName'] ?? '').toString(),
         ),
+        authLocalDatasource: sl<AuthLocalDatasource>(),
       ),
     );
   }
-  debugPrint('DI Chat baseUrl=${sl<ChatRemoteDataSourceImpl>().baseUrl}');
+
+  debugPrint('DI ready: baseUrl=${sl<ChatRemoteDataSourceImpl>().baseUrl}');
 }
